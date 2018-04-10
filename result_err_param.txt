@@ -1,0 +1,29 @@
+[0 1 2 3 4 5 6 7]
+(540, 77) (540,)
+sample_result:
+ [[-5.36562913e-01 -1.01170130e+00 -1.06587449e-01 ... -7.65791965e-16
+   5.77678123e-16 -7.97984583e-01]
+ [-3.15596612e-01 -1.44277487e-01  1.66140849e+00 ...  4.61448458e-02
+  -9.15382975e-02 -1.56951096e-01]
+ [-4.74358195e-01 -2.49713791e-01  5.19442289e-01 ... -3.61454162e-02
+   5.77678123e-16 -8.01206461e-01]
+ ...
+ [-5.43738790e-01 -3.91608594e-01  1.27819533e+00 ...  1.48730315e+00
+   5.77678123e-16 -2.37020146e+00]
+ [-9.15698653e-02 -3.46416503e-01 -1.65772356e+00 ... -7.65791965e-16
+   5.77678123e-16  5.25393865e-01]
+ [-4.89545667e-01 -6.48825075e-01 -8.66318120e-02 ...  1.29428589e-01
+  -5.73406164e-01 -1.06411153e+00]]
+sample_genes:
+ [ True  True  True False False  True  True  True  True  True  True  True
+  True  True  True False  True False  True  True  True False  True  True
+  True  True  True  True False  True  True  True  True False False  True
+ False  True  True  True  True  True  True False False False False  True
+  True  True  True  True False False  True  True  True False  True  True
+  True False  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True]
+sample_scores:
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+hw err: 0.009259259259259259 non-zero coefficients: 40.9
+Error rate on Test data: 0.018518518518518517
+Error rate on Training data: 0.007936507936507936
