@@ -9,12 +9,12 @@ from mysrc import *
 
 
 port_tr = 0.7
-port_ts = 0.3
+port_vald = 0.3
 tr_path = 'data/train.csv'
 ts_path = 'data/test.csv'
 
 X, y = read_data(tr_path)
-Xtr, ytr, Xvald, yvald = sample_data(X, y, port_tr, port_ts)
+Xtr, ytr, Xvald, yvald = sample_data(X, y, port_tr, port_vald)
 
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])
@@ -26,15 +26,3 @@ print("sample_genes:\n", sample_genes)
 print("sample_scores:\n", sample_scores)
 
 np.save('trained_genes.txt', sample_genes)
-
-regr = linear_model.LinearRegression()
-Xtr_new, ytr_new = extract_gene(np.concatenate((Xtr, Xvald), axis = 0), 
-	np.concatenate((ytr, yvald), axis = 0), sample_genes, False)
-regr.fit(Xtr_new,ytr_new)
-
-Xts, yts = read_data(ts_path)
-Xts, yts = extract_gene(Xts, yts, sample_genes, True)
-yhat = regr.predict(Xts)
-err_rate = feval(yhat, yts)
-print("Error rate on Test data:", err_rate)
-
