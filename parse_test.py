@@ -8,19 +8,20 @@ import sys
 def readDataTest(file_tsx, file_tsy):
 	x = []
 	n_row = 0
-	x_row = 0
+	x_row = []
 	text = open(file_tsx, 'r', encoding='big5') 
 	row = csv.reader(text , delimiter=",")
 	for r in row:
 		if n_row != 0:
 			for i in range(2,10):
 				if r[i] != "NR":
-					x[x_row].append(float(r[i]))
+					x_row.append(float(r[i]))
 				else:
-					x[x_row].append(float(0))	
+					x_row.append(float(0))	
 		n_row = n_row+1
 		if n_row%18 == 0:
-			x_row = x_row+1
+			x.append(x_row)
+			x_row = []
 	text.close()
 
 	y = []
