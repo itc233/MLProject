@@ -107,7 +107,7 @@ class GA(object):
         #for i in range(len(possbilities)):
         #    tmp_array.concatenate((tmp_array, np.full(int(possbilities[i]), i, dtype=np.int))
         #random.shuffle(gambling_board)
-        return possbilities.astype(int)#gambling_board
+        return possbilities#gambling_board
 
     # generate children
     def _reproduce(self, gene1, gene2):
@@ -136,11 +136,9 @@ class GA(object):
     def _run(self, n_gene_units, n_sample, adapt_func):
         if n_gene_units == n_sample:
             return self.train
-
         # initialize the first generation
         population = [self._random_series(n_gene_units, n_sample)
                  for i in range(self.groups)]
-
         # iterate to generate follow-up generations
         bests = []
         genes = []
@@ -155,40 +153,45 @@ class GA(object):
         # return best_gene, the vary best scores
         return (best_gene, bests)
             
-    
+    def getChildId(cumboard, sort_id):
+        val = random.uniform(0, cumboard[len(cumboard)-1])
+        ans = 0
+        for id, i in enumerate(cumboard):
+            if val <= i:
+                ans = sort_id[id]
+                break
+        return ans
+
+    def swapGene(ch1, ch2):
+        return ch2, ch1
+
+    def getChild(cumboard, sort_id, scores, genes):
+        idx = getChildId(cumboard, sort_id)
+        return genes[idx], scores[idx]
+
     def _one_generation(self, genes, adapt_func):
         scores = [adapt_func(gene) for gene in genes]
-        best_gene = genes[np.argmin(scores)]
-
         board = self._gambling_board(scores)
-        n_keep_best = int(self.groups * self.r_keep_best)
-        # keep the bests
+
+        best_gene = genes[np.argmin(scores)]
+        n_keep_best = int(len(genes) * self.r_keep_best)#int(self.groups * self.r_keep_best)
         bests_idx = np.array(np.argsort(scores)[:n_keep_best])
-        #print(bests_idx)
         new_genes =(np.array(genes)[bests_idx, :]).tolist()
-        # generate childrens
-        pool = []
-        board_sum = np.cumsum(board)
-        while(len(pool) < len(genes)-len(new_genes)):
-            n_childrens = self.groups - n_keep_best
-            rands = random.randint(0, np.sum(board))
-            chose = np.argmin(abs(board-rands))
-            pool.append(genes[chose])
+
+        sort_id = np.argsort(board)
+        cumboard = np.cumsum(np.sort(board))
+
         while(len(new_genes) < len(genes)):
-            rand1 = random.randint(0, len(pool)-1)
-            rand2 = random.randint(0, len(pool)-1)
-            if(adapt_func(pool[rand1]) > adapt_func(pool[rand2])):
-                child1 = pool[rand1]
-                child2 = pool[rand2]
-            else:
-                child1 = pool[rand2]
-                child2 = pool[rand1]
-            #new_genes.append(_reproduce(child1, child2))
-            for j in range(np.shape(pool)[1]):
-                rand3 = random.uniform(0, 1)
-                if(rand3 < self.r_crossover):
-                    child2[j] = child1[j]
-            new_genes.append(child1)
-            new_genes.append(child2)
-        genes = new_genes
+            ch1, sc1 = getChild(cumboard, sort_id, scores, genes)
+            ch2, sc2 = getChild(cumboard, sort_id, scores, genes)
+            if(sc1 < sc2):
+                ch1, ch2 = swapGene(ch1, ch2)
+            for j in range(np.shape(ch1)[1]):
+                do_mut = random.uniform(0, 1)
+                if(do_mut < self.r_crossover):
+                    ch2[j] = ch1[j]
+            new_genes.append(ch1)
+            new_genes.append(ch2)
+
+        genes = new_genes[:len(genes), :]
         return (scores, genes, best_gene)
