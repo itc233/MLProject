@@ -35,7 +35,7 @@ def extract_gene(X, y, gene, normal):
 		X = preprocessing.scale(X)
 		y = preprocessing.scale(y)
 	X = X[:, gene]
-	y = y[:, gene]
-	reutrn X, y
+	y = y
+	return X, y
 
 
