@@ -143,7 +143,7 @@ class GA(object):
         bests = []
         genes = []
         for i in range(self.iter):
-            scores, population, gene = self._one_generation(population, adapt_func)
+            scores, population, gene = self._oneGeneration(population, adapt_func)
             bests.append(np.min(scores))
             self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
             genes.append(gene)
@@ -153,7 +153,7 @@ class GA(object):
         # return best_gene, the vary best scores
         return (best_gene, bests)
             
-    def getChildId(cumboard, sort_id):
+    def _getChildId(self, cumboard, sort_id):
         val = random.uniform(0, cumboard[len(cumboard)-1])
         ans = 0
         for id, i in enumerate(cumboard):
@@ -162,14 +162,14 @@ class GA(object):
                 break
         return ans
 
-    def swapGene(ch1, ch2):
+    def _swapGene(self, ch1, ch2):
         return ch2, ch1
 
-    def getChild(cumboard, sort_id, scores, genes):
-        idx = getChildId(cumboard, sort_id)
+    def _getChild(self, cumboard, sort_id, scores, genes):
+        idx = self._getChildId(cumboard, sort_id)
         return genes[idx], scores[idx]
 
-    def _one_generation(self, genes, adapt_func):
+    def _oneGeneration(self, genes, adapt_func):
         scores = [adapt_func(gene) for gene in genes]
         board = self._gambling_board(scores)
 
@@ -182,16 +182,17 @@ class GA(object):
         cumboard = np.cumsum(np.sort(board))
 
         while(len(new_genes) < len(genes)):
-            ch1, sc1 = getChild(cumboard, sort_id, scores, genes)
-            ch2, sc2 = getChild(cumboard, sort_id, scores, genes)
+            ch1, sc1 = self._getChild(cumboard, sort_id, scores, genes)
+            ch2, sc2 = self._getChild(cumboard, sort_id, scores, genes)
             if(sc1 < sc2):
-                ch1, ch2 = swapGene(ch1, ch2)
-            for j in range(np.shape(ch1)[1]):
+                ch1, ch2 = self._swapGene(ch1, ch2)
+            for j in range(len(ch1)):
                 do_mut = random.uniform(0, 1)
                 if(do_mut < self.r_crossover):
                     ch2[j] = ch1[j]
             new_genes.append(ch1)
             new_genes.append(ch2)
 
-        genes = new_genes[:len(genes), :]
+        genes = new_genes[:len(genes)]
+        print(np.shape(genes))
         return (scores, genes, best_gene)
