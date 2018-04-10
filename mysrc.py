@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn import linear_model, preprocessing, metrics
-from parse import read_data
+#from parse import read_data
 from genetics import GA
 
 def generate_idx(port_tr, port_vald, data_len):
