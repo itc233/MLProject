@@ -5,7 +5,7 @@ import random
 import math
 import sys
 
-def read_data(file):
+def readDataTrain(file):
 	data = []
 	for i in range(18):
 		data.append([])
