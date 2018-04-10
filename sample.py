@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import linear_model, preprocessing
 from sklearn.model_selection import KFold
 from sklearn import metrics
-from parse import read_data
+from parse import *
 from genetics import GA
 from mysrc import *
 
@@ -13,7 +13,7 @@ port_vald = 0.3
 tr_path = 'data/train.csv'
 ts_path = 'data/test.csv'
 
-X, y = read_data(tr_path)
+X, y = readDataTrain(tr_path)
 Xtr, ytr, Xvald, yvald = sample_data(X, y, port_tr, port_vald)
 
 GAtrain = np.column_stack([Xtr, ytr])
@@ -25,4 +25,4 @@ print("sample_result:\n", sample_result)
 print("sample_genes:\n", sample_genes)
 print("sample_scores:\n", sample_scores)
 
-np.save('trained_genes.txt', sample_genes)
+np.save('trained_genes', sample_genes)
