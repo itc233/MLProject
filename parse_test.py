@@ -16,9 +16,9 @@ def readDataTest(file_tsx, file_tsy):
 		if n_row != 0:
 			for i in range(2,10):
 				if r[i] != "NR":
-					x[(n_row-1)%18].append(float(r[i]))
+					x[np.floor(n_row/18)].append(float(r[i]))
 				else:
-					x[(n_row-1)%18].append(float(0))	
+					x[np.floor(n_row/18)].append(float(0))	
 		n_row = n_row+1
 	text.close()
 
