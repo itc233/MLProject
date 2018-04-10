@@ -19,11 +19,13 @@ Xtr, ytr, Xvald, yvald = sample_data(X, y, port_tr, port_ts)
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])
 
-(sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=200, r_sample=0.9, r_crossover=0.5, r_vary=0.05, verbose = True).select(axis = 1)
+(sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=2, r_sample=0.9, r_crossover=0.5, r_vary=0.05, verbose = True).select(axis = 1)
 
 print("sample_result:\n", sample_result)
 print("sample_genes:\n", sample_genes)
 print("sample_scores:\n", sample_scores)
+
+np.save('trained_genes.txt', sample_genes)
 
 regr = linear_model.LinearRegression()
 Xtr_new, ytr_new = extract_gene(np.concatenate((Xtr, Xvald), axis = 0), 
