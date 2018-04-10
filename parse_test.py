@@ -25,7 +25,8 @@ def readDataTest(file_tsx, file_tsy):
 	y = []
 	text = open(file_tsy, 'r', encoding='big5') 
 	row = csv.reader(text , delimiter=",")
-	y = row[:, 1]
+	for r in row:
+		y.append(r[1])
 	text.close()
 	# 每 12 個月
 	x = np.array(x)
