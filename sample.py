@@ -4,6 +4,7 @@ from sklearn import linear_model, preprocessing
 from sklearn.model_selection import KFold
 from sklearn import metrics
 from parse import *
+from parse_test import *
 from genetics import GA
 from mysrc import *
 
