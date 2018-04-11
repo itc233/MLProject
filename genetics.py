@@ -7,7 +7,7 @@ class GA(object):
     # the last column of train and valid will be taken as the perdict value
     def __init__(self, train, valid, estimator, feval, 
                  groups=100, iter=200, r_sample=0.8, r_crossover=0.5, r_vary=0.01,
-                 r_keep_best=0.1, n_jobs=4,
+                 r_keep_best=0.1, n_jobs=4, popsize = 1000
                  verbose=False):
         self.train = train
         self.estimator = estimator
@@ -20,6 +20,7 @@ class GA(object):
         self.r_vary = r_vary
         self.r_keep_best = r_keep_best
         self.n_jobs = n_jobs
+        self.popsize = popsize
 
         self.feval = feval
         self._validate()
@@ -132,8 +133,10 @@ class GA(object):
         if n_gene_units == n_sample:
             return self.train
         # initialize the first generation
+        #population = [self._random_series(n_gene_units, n_sample)
+                 #for i in range(self.groups)]
         population = [self._random_series(n_gene_units, n_sample)
-                 for i in range(self.groups)]
+                 for i in range(self.popsize)]
         # iterate to generate follow-up generations
         bests = []
         genes = []
