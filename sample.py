@@ -21,8 +21,8 @@ X = np.concatenate((Xtr, Xts), axis = 0)
 X = preprocessing.scale(X)
 Xtr = X[:len(ytr), :]
 Xts = X[len(ytr):, :]
-np.save('data/train', np.concatenate((Xtr, ytr)), axis = 1)
-np.save('data/test', np.concatenate((Xts, yts)), axis = 1)
+np.save('data/train', np.column_stack([Xtr, ytr]))
+np.save('data/test', np.column_stack([Xts, yts]))
 
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])
