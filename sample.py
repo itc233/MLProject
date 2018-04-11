@@ -24,6 +24,7 @@ Xts = X[len(ytr):, :]
 np.save('data/train', np.column_stack([Xtr, ytr]))
 np.save('data/test', np.column_stack([Xts, yts]))
 
+Xtr, ytr, Xvald, yvald = sample_data(Xtr, ytr, port_tr, port_vald)
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])
 

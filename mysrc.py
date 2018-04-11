@@ -22,12 +22,12 @@ def feval(yhat, y):
 def sample_data(X, y, port_tr, port_vald):
 	tr_idx, val_idx = generate_idx(port_tr, port_vald, len(y))
 	#X = preprocessing.scale(X)
-	tr_idx, vald_idx = generate_idx(0.7, 0.3, len(y))
+	tr_idx, vald_idx = generate_idx(port_tr, port_vald, len(y))
 	Xtr = X[tr_idx, :]
 	ytr = y[tr_idx]
 	Xvald = X[vald_idx, :]
 	yvald = y[vald_idx]
-	return Xtr, ytr, Xvald, yvald, Xm, Xstd
+	return Xtr, ytr, Xvald, yvald
 
 def extract_gene(X, y, gene, normal):
 	if(normal):
