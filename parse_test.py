@@ -23,7 +23,7 @@ def readDataTest(file_tsx, file_tsy):
 			if len(x) == 0:
 				x = np.array(x_row)
 			else:
-				x = np.concatenate(np.array(x_row), axis = 0)
+				x = np.concatenate((x, np.array(x_row)), axis = 0)
 			x_row = []
 	text.close()
 
