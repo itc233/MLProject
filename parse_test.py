@@ -13,7 +13,7 @@ def readDataTest(file_tsx, file_tsy):
 	row = csv.reader(text , delimiter=",")
 	for r in row:
 		if n_row != 0:
-			for i in range(2,10):
+			for i in range(2,11):
 				if r[i] != "NR":
 					x_row.append(float(r[i]))
 				else:
