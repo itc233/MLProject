@@ -13,8 +13,14 @@ port_vald = 0.3
 tr_path = 'data/train.csv'
 ts_path = 'data/test.csv'
 
-X, y = readDataTrain(tr_path)
-Xtr, ytr, Xvald, yvald = sample_data(X, y, port_tr, port_vald)
+Xtr, ytr = readDataTrain(tr_path)
+Xts, yts = readDataTest(ts_path)
+X = np.concatenate((Xtr, Xts), axis = 0)
+X = preprocessing.scale(X)
+Xtr = X[:len(ytr), :]
+Xts = X[len(ytr):, :]
+np.save('data/train', np.concatenate((Xtr, ytr)), axis = 1)
+np.save('data/test', np.concatenate((Xts, yts)), axis = 1)
 
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])

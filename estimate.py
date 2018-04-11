@@ -9,24 +9,26 @@ from genetics import GA
 from mysrc import *
 
 
-tr_path = 'data/train.csv'
-ts_path = 'data/test.csv'
-tsy_path = 'data/test_y.csv'
+tr_path = 'data/train.npy'
+ts_path = 'data/test.npy'
+#tsy_path = 'data/test_y.csv'
 
 sample_genes = np.load('trained_genes.npy')
 
 regr = linear_model.LinearRegression()
-Xtr_new, ytr_new = readDataTrain(tr_path)
-Xtr_new, ytr_new = extract_gene(Xtr_new, ytr_new, sample_genes, True)
-regr.fit(Xtr_new,ytr_new)
+Xytr = np.load(tr_path)#readDataTrain(tr_path)
+Xtr = Xytr[:, :-1]
+ytr = Xytr[:, -1]
+Xtr = Xtr[:, sample_genes]
+regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr_new)
 err_rate = feval(yhat, ytr_new)
 print("Error rate on Training data:", err_rate)
 
-Xts, yts = readDataTest(ts_path, tsy_path)
-Xts, yts = extract_gene(Xts, yts, sample_genes, True)
-#print(Xts[:2, :])
-
+Xyts = np.load(ts_path)#readDataTrain(tr_path)
+Xts = Xyts[:, :-1]
+yts = Xyts[:, -1]
+Xts = Xts[:, sample_genes]
 yhat = regr.predict(Xts)
 err_rate = feval(yhat, yts)
 print("Error rate on Test data:", err_rate)
