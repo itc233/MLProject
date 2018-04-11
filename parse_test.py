@@ -20,7 +20,7 @@ def readDataTest(file_tsx, file_tsy):
 					x_row.append(float(0))	
 		n_row = n_row+1
 		if n_row%18 == 0:
-			x.append(x_row)
+			x.append(np.array(x_row))
 			x_row = []
 	text.close()
 
