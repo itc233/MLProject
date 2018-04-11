@@ -25,6 +25,8 @@ print("Error rate on Training data:", err_rate)
 
 Xts, yts = readDataTest(ts_path, tsy_path)
 Xts, yts = extract_gene(Xts, yts, sample_genes, True)
+#print(Xts[:2, :])
+
 yhat = regr.predict(Xts)
 err_rate = feval(yhat, yts)
 print("Error rate on Test data:", err_rate)

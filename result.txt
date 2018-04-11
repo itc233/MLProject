@@ -1,0 +1,2 @@
+Train: 0.34, Test: 0.29
+Comment: Prob roulette wheel election, r_sample = 0.9, iter = 200, r_cross = 0.5 
