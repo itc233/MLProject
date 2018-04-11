@@ -12,10 +12,11 @@ from mysrc import *
 port_tr = 0.7
 port_vald = 0.3
 tr_path = 'data/train.csv'
-ts_path = 'data/test.csv'
+tsx_path = 'data/test.csv'
+tsy_path = 'data/test_y.csv'
 
 Xtr, ytr = readDataTrain(tr_path)
-Xts, yts = readDataTest(ts_path)
+Xts, yts = readDataTest(tsx_path, tsy_path)
 X = np.concatenate((Xtr, Xts), axis = 0)
 X = preprocessing.scale(X)
 Xtr = X[:len(ytr), :]
