@@ -140,6 +140,8 @@ class GA(object):
         for i in range(self.iter):
             scores, population, gene = self._oneGeneration(population, adapt_func)
             bests.append(np.min(scores))
+            m_genes = np.mean(population, axis = 0)
+            print(m_genes)
             self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
             genes.append(gene)
 
@@ -195,5 +197,4 @@ class GA(object):
             new_genes.append(ch2)
 
         genes = new_genes[:len(genes)]
-        print(np.shape(genes))
         return (scores, genes, best_gene)
