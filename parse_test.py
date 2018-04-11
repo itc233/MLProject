@@ -33,8 +33,8 @@ def readDataTest(file_tsx, file_tsy):
 			y.append(r[1])
 		n_row = n_row+1
 	text.close()
-	# 每 12 個月
-	x = np.array(x)
+
+	x = np.vstack(x)
 	y = np.array(y)
 	print(x[0:10])
 	print(y[0:10])
