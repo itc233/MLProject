@@ -12,12 +12,11 @@ def readDataTest(file_tsx, file_tsy):
 	text = open(file_tsx, 'r', encoding='big5') 
 	row = csv.reader(text , delimiter=",")
 	for r in row:
-		if n_row != 0:
-			for i in range(2,11):
-				if r[i] != "NR":
-					x_row.append(float(r[i]))
-				else:
-					x_row.append(float(0))	
+		for i in range(2,11):
+			if r[i] != "NR":
+				x_row.append(float(r[i]))
+			else:
+				x_row.append(float(0))	
 		n_row = n_row+1
 		if n_row%18 == 0:
 			if len(x) == 0:
