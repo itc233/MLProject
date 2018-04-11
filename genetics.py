@@ -7,7 +7,7 @@ class GA(object):
     # the last column of train and valid will be taken as the perdict value
     def __init__(self, train, valid, estimator, feval, 
                  groups=100, iter=200, r_sample=0.8, r_crossover=0.5, r_vary=0.01,
-                 r_keep_best=0.1, n_jobs=4, popsize = 1000
+                 r_keep_best=0.1, n_jobs=4, popsize = 1000,
                  verbose=False):
         self.train = train
         self.estimator = estimator
