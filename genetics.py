@@ -102,12 +102,7 @@ class GA(object):
         tmp = list(map(lambda x: pow(alpha, x), scores))
         tmp = tmp / np.sum(tmp)               # calculate p
         possbilities = tmp / np.min(tmp)      # scale
-        gambling_board = []
-        tmp_array = []
-        #for i in range(len(possbilities)):
-        #    tmp_array.concatenate((tmp_array, np.full(int(possbilities[i]), i, dtype=np.int))
-        #random.shuffle(gambling_board)
-        return possbilities#gambling_board
+        return possbilities
 
     # generate children
     def _reproduce(self, gene1, gene2):
@@ -184,12 +179,18 @@ class GA(object):
         while(len(new_genes) < len(genes)):
             ch1, sc1 = self._getChild(cumboard, sort_id, scores, genes)
             ch2, sc2 = self._getChild(cumboard, sort_id, scores, genes)
-            if(sc1 < sc2):
+            if(sc1 > sc2):
                 ch1, ch2 = self._swapGene(ch1, ch2)
             for j in range(len(ch1)):
-                do_mut = random.uniform(0, 1)
-                if(do_mut < self.r_crossover):
+                do_cross = random.uniform(0, 1)
+                if(do_cross < self.r_crossover):
                     ch2[j] = ch1[j]
+                do_mut = random.uniform(0, 1)
+                if(do_mut < self.r_vary):
+                    ch1[j] = ~ch1[j]
+                do_mut = random.uniform(0, 1)
+                if(do_mut < self.r_vary):
+                    ch2[j] = ~ch2[j]
             new_genes.append(ch1)
             new_genes.append(ch2)
 
