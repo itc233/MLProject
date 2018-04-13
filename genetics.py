@@ -6,22 +6,19 @@ class GA(object):
 
     # the last column of train and valid will be taken as the perdict value
     def __init__(self, train, valid, estimator, feval, 
-                 groups=100, iter=200, r_sample=0.8, r_crossover=0.5, r_vary=0.01,
-                 r_keep_best=0.1, n_jobs=4, popsize = 1000,
+                 iter=200, r_sample=0.6, r_crossover=0.5, r_vary=0.01,
+                 r_keep_best=0.1, popsize = 1000,
                  verbose=False):
         self.train = train
         self.estimator = estimator
         self.verbose = verbose
         self.iter = iter
-        self.groups = groups
         self.r_sample = r_sample
         self.valid = valid
         self.r_crossover = r_crossover
         self.r_vary = r_vary
         self.r_keep_best = r_keep_best
-        self.n_jobs = n_jobs
         self.popsize = popsize
-
         self.feval = feval
         self._validate()
 
@@ -36,55 +33,30 @@ class GA(object):
         assert self.estimator, 'estimator is invalid'
 
     # axis = [0,1]: 0 means row, 1 means columns
-    def select(self, axis):
-        assert axis in [0, 1], 'axis should be 0 or 1'
-        if axis == 0:
-            return self.select_instance()
-        else:
-            return self.select_feature()
-
-    # calculate the adaptation score of a sample gene
-    # the smaller the better
-    def _sample_adapt_score(self, gene):
-        sample = self.train.T[:-1][gene].T
-        estor = self.estimator.fit(sample, self.train.T[-1].T)
-        sample_v = self.valid.T[:-1][gene].T
-        predicts = estor.predict(sample_v)
-        return self.feval(predicts, self.valid.T[-1].T)
-
-    def select_instance(self):
-        n_instance = self.train.shape[0]
-        n_sample = int(self.r_sample * n_instance)
-
-        (best_gene, best_scores) = self._run(
-            n_instance, n_sample, self._sample_adapt_score)
-
-        best_sample = self.train[best_gene]
-
-        # return samples, best gene, and the vary bests scores
-        return (best_sample, best_gene, best_scores)
+    def select(self):
+        return self._selectFeature()
 
     # the smaller the better
-    def _select_feature_adapt_score(self, gene):
+    def _selectFeatureScore(self, gene):
         sample = self.train.T[:-1][gene].T
         estor = self.estimator.fit(sample, self.train.T[-1].T)
         valid_fs = self.valid.T[:-1][gene].T
         predicts = estor.predict(valid_fs)
         return self.feval(predicts, self.valid.T[-1].T)
 
-    def select_feature(self):
+    def _selectFeature(self):
         n_features = self.train.shape[1] - 1  # the last feature is the value
         n_sample = int(self.r_sample * n_features)
 
         (best_gene, best_scores) = self._run(
-            n_features, n_sample, self._select_feature_adapt_score
+            n_features, n_sample, self._selectFeatureScore
         )
 
         best_sample = self.train.T[:-1][best_gene].T
         return (best_sample, best_gene, best_scores)
 
     # generate a random array whose len=n_len, and have n_pos's value==True
-    def _random_series(self, n_len, n_pos):
+    def _randomSeries(self, n_len, n_pos):
         gene = np.zeros(n_len, dtype=np.bool)
 
         indexes = np.arange(n_len, dtype=np.int)
@@ -93,8 +65,7 @@ class GA(object):
         gene[indexes[:n_pos]] = True
         return gene
 
-    def _gambling_board(self, scores):
-
+    def _gamblingBoard(self, scores):
         # scores: the smaller the better
         # possbilities: the bigger the better
         # p = (alpha)^score
@@ -104,47 +75,19 @@ class GA(object):
         tmp = tmp / np.sum(tmp)               # calculate p
         possbilities = tmp / np.min(tmp)      # scale
         return possbilities
-
-    # generate children
-    def _reproduce(self, gene1, gene2):
-        if np.array_equal(gene1, gene2):
-            return gene1
-
-        # crossover
-        children = gene1.copy()
-
-        co_flags = self._random_series(
-            len(gene2), int(len(gene2) * self.r_crossover))
-        children[co_flags] = gene2[co_flags]
-
-        # variation
-        va_flags = self._random_series(len(gene2), int(len(gene2) * self.r_vary))
-        children[va_flags] = ~children[va_flags]
-
-        return children.tolist()
-
-    def _reproduce_wrapper(self, genes, board, bid1, bid2):
-        gene1 = genes[board[bid1]]
-        gene2 = genes[board[bid2]]
-
-        return self._reproduce(gene1, gene2)
     
     def _run(self, n_gene_units, n_sample, adapt_func):
         if n_gene_units == n_sample:
             return self.train
-        # initialize the first generation
-        #population = [self._random_series(n_gene_units, n_sample)
-                 #for i in range(self.groups)]
-        population = [self._random_series(n_gene_units, n_sample)
+        population = [self._randomSeries(n_gene_units, n_sample)
                  for i in range(self.popsize)]
-        # iterate to generate follow-up generations
         bests = []
         genes = []
         for i in range(self.iter):
             scores, population, gene = self._oneGeneration(population, adapt_func)
             bests.append(np.min(scores))
             m_genes = np.mean(population, axis = 0)
-            print(m_genes)
+            #print(m_genes)
             self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
             genes.append(gene)
 
@@ -171,10 +114,10 @@ class GA(object):
 
     def _oneGeneration(self, genes, adapt_func):
         scores = [adapt_func(gene) for gene in genes]
-        board = self._gambling_board(scores)
+        board = self._gamblingBoard(scores)
 
         best_gene = genes[np.argmin(scores)]
-        n_keep_best = int(len(genes) * self.r_keep_best)#int(self.groups * self.r_keep_best)
+        n_keep_best = int(len(genes) * self.r_keep_best)
         bests_idx = np.array(np.argsort(scores)[:n_keep_best])
         new_genes =(np.array(genes)[bests_idx, :]).tolist()
 
