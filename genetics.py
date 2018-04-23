@@ -89,7 +89,7 @@ class GA(object):
             scores, population, gene = self._oneGeneration(population, adapt_func)
             bests.append(np.min(scores))
             m_genes = np.mean(population, axis = 0)
-            #print(m_genes)
+            print(m_genes)
             self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
             genes.append(gene)
             np.save('trained_genes', gene)
@@ -122,13 +122,8 @@ class GA(object):
         best_gene = genes[np.argmin(scores)]
         n_keep_best = int(len(genes) * self.r_keep_best)
         bests_idx = np.array(np.argsort(scores)[:n_keep_best])
-        print("best score", np.array(scores)[bests_idx])
         new_genes =(np.array(genes)[bests_idx, :]).tolist()
-        print("best gene", best_gene)
 
-        new_best = new_genes[0]
-        print("best new gene", new_best)
-        print("before pooling ", adapt_func(new_best))
         sort_id = np.argsort(board)
         cumboard = np.cumsum(np.sort(board))
 
@@ -150,7 +145,4 @@ class GA(object):
             new_genes.append(ch1)
             new_genes.append(ch2)
 
-        #genes = (np.array(new_genes)[len(genes), :]).tolist()
-        new_best = np.array(new_genes)[0, :]
-        print("after pooling ", adapt_func(new_best))
         return (scores, new_genes, best_gene)
