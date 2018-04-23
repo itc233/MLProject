@@ -70,10 +70,10 @@ class GA(object):
         # possbilities: the bigger the better
         # p = (alpha)^score
 
-        alpha = 0.5
+        alpha = 0.8
         tmp = list(map(lambda x: pow(alpha, x), scores))
         tmp = tmp / np.sum(tmp)               # calculate p
-        possbilities = tmp / np.min(tmp)      # scale
+        possbilities = tmp #/ np.min(tmp)      # scale
         return possbilities
     
     def _run(self, n_gene_units, n_sample, adapt_func):
@@ -87,9 +87,10 @@ class GA(object):
             scores, population, gene = self._oneGeneration(population, adapt_func)
             bests.append(np.min(scores))
             m_genes = np.mean(population, axis = 0)
-            #print(m_genes)
+            print(m_genes)
             self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
             genes.append(gene)
+            np.save('trained_genes', gene)
 
         self._verbose('Final best score:{0}'.format(bests[-1]))
         best_gene = genes[np.argmin(scores)]

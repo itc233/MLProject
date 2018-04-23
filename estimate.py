@@ -7,7 +7,7 @@ from parse import *
 from parse_test import *
 from genetics import GA
 from mysrc import *
-
+import csv
 
 tr_path = 'data/train.npy'
 ts_path = 'data/test.npy'
@@ -33,3 +33,10 @@ Xts = Xts[:, sample_genes]
 yhat = regr.predict(Xts)
 err_rate = feval(yhat, yts)
 print("Error rate on Test data:", err_rate)
+
+#parse output
+output_path = 'data/forkaggle.csv'
+with open(output_path, 'w') as f:
+        f.write('id,value\n')
+        for i, v in  enumerate(yhat):
+            f.write('id_%d,%d\n' %(i, v))
