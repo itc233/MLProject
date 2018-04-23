@@ -28,7 +28,7 @@ Xtr, ytr, Xvald, yvald = sample_data(Xtr, ytr, port_tr, port_vald)
 GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])
 
-(sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=150, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.01, popsize = 300, verbose = True).select()
+(sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=150, r_sample=0.5, r_crossover=0.5, r_vary=0.01, r_keep_best = 0.01, popsize = 300, verbose = True).select()
 
 print("sample_result:\n", sample_result)
 print("sample_genes:\n", sample_genes)
