@@ -124,8 +124,10 @@ class GA(object):
         bests_idx = np.array(np.argsort(scores)[:n_keep_best])
         print("best score", np.array(scores)[bests_idx])
         new_genes =(np.array(genes)[bests_idx, :]).tolist()
+        print("best gene", best_gene)
 
         new_best = np.array(new_genes)[0, :]
+        print("best new gene", new_best)
         print("before pooling ", adapt_func(new_best))
         sort_id = np.argsort(board)
         cumboard = np.cumsum(np.sort(board))
