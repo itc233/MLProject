@@ -16,7 +16,7 @@ def generate_idx(port_tr, port_vald, data_len):
 	return tr_idx, vald_idx
 
 def feval(yhat, y):
-	fit = np.sqrt(np.mean(abs(y-yhat)**2))
+	fit = np.sqrt(np.mean((y-yhat)**2))
 	return fit
 
 def sample_data(X, y, port_tr, port_vald):
