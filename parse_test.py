@@ -37,6 +37,5 @@ def readDataTest(file_tsx, file_tsy):
 	text.close()
 
 	y = np.array(y)
-	print(np.shape(x))
-	print(np.shape(y))
+	x = np.array(x)
 	return x, y
