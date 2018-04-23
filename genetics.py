@@ -143,10 +143,16 @@ class GA(object):
                     ch2[j] = ch1[j]
                 do_mut = random.uniform(0, 1)
                 if(do_mut < self.r_vary):
-                    ch1[j] = 1-ch1[j]
+                    if(ch1[j]):
+                        ch1[j] = False
+                    else :
+                        ch1[j] = True
                 do_mut = random.uniform(0, 1)
                 if(do_mut < self.r_vary):
-                    ch2[j] = 1-ch2[j]
+                    if(ch2[j]):
+                        ch2[j] = False
+                    else :
+                        ch2[j] = True
             new_genes.append(ch1)
             new_genes.append(ch2)
 
