@@ -10,6 +10,7 @@ class GA(object):
                  r_keep_best=0.1, popsize = 1000,
                  verbose=False):
         self.train = train
+        self.origin_estimator = estimator
         self.estimator = estimator
         self.verbose = verbose
         self.iter = iter
@@ -38,6 +39,7 @@ class GA(object):
 
     # the smaller the better
     def _selectFeatureScore(self, gene):
+        self.estimator = self.origin_estimator
         sample = self.train.T[:-1][gene].T
         estor = self.estimator.fit(sample, self.train.T[-1].T)
         valid_fs = self.valid.T[:-1][gene].T
