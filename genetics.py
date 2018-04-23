@@ -72,7 +72,7 @@ class GA(object):
         # possbilities: the bigger the better
         # p = (alpha)^score
 
-        alpha = 0.8
+        alpha = 0.95
         tmp = list(map(lambda x: pow(alpha, x), scores))
         tmp = tmp / np.sum(tmp)               # calculate p
         possbilities = tmp #/ np.min(tmp)      # scale
