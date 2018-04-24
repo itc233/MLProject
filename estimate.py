@@ -17,15 +17,14 @@ sample_genes = np.load('trained_genes.npy')
 #sample_genes = np.full(np.shape(sample_genes), True, dtype=bool)
 regr = linear_model.LinearRegression()
 
-#Xytr = np.load(tr_path)#readDataTrain(tr_path)
-#Xtr = Xytr[:, :-1]
-#ytr = Xytr[:, -1]
-#Xtr = Xtr[:, sample_genes]
-X = np.load('trainDataForGA.npy')
-Xtr = X[:, :-1]
-ytr = X[:, -1]
+Xytr = np.load(tr_path)#readDataTrain(tr_path)
+Xtr = Xytr[:, :-1]
+ytr = Xytr[:, -1]
 Xtr = Xtr[:, sample_genes]
-
+#X = np.load('trainDataForGA.npy')
+#Xtr = X[:, :-1]
+#ytr = X[:, -1]
+#Xtr = Xtr[:, sample_genes]
 regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
 err_rate = feval(yhat, ytr)
