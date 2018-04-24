@@ -95,7 +95,7 @@ class GA(object):
             genesHist.append(gene)
 
             m_genes = np.mean(population, axis = 0)
-            print(gene)
+            print(m_genes)
 
             self._verbose('Generation {0:3}: Best score this gen:{1} Best socre:{1}'.format(i, np.min(scores) ,scoresHist[-1]))
 
