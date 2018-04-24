@@ -14,7 +14,7 @@ ts_path = 'data/test.npy'
 #tsy_path = 'data/test_y.csv'
 
 sample_genes = np.load('trained_genes.npy')
-
+#sample_genes = np.full(np.shape(sample_genes), True, dtype=bool)
 regr = linear_model.LinearRegression()
 Xytr = np.load(tr_path)#readDataTrain(tr_path)
 Xtr = Xytr[:, :-1]
