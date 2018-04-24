@@ -39,12 +39,18 @@ class GA(object):
 
     # the smaller the better
     def _selectFeatureScore(self, gene):
+        Xtr = self.train[:, :-1]
+        Xtr = Xtr[:, gene]
+        ytr = self.train[:, -1]
+
+        Xvalid = self.valid[:, :-1]
+        Xvalid = Xvalid[:, gene]
+        yvalid = self.valid[:, -1]
+
         self.estimator = self.origin_estimator
-        sample = self.train.T[:-1][gene].T
-        estor = self.estimator.fit(sample, self.train.T[-1].T)
-        valid_fs = self.valid.T[:-1][gene].T
-        predicts = estor.predict(valid_fs)
-        return self.feval(predicts, self.valid.T[-1].T)
+        estor = self.estimator.fit(Xtr, ytr)
+        predicts = estor.predict(Xvalid)
+        return self.feval(predicts, yvalid)
 
     def _selectFeature(self):
         n_features = self.train.shape[1] - 1  # the last feature is the value
