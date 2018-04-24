@@ -26,7 +26,7 @@ np.save('data/test', np.column_stack([Xts, yts]))
 
 Xtr, ytr, Xvald, yvald = sample_data(Xtr, ytr, port_tr, port_vald)
 GAtrain = np.column_stack([Xtr, ytr])
-GAvalid = np.column_stack([Xts.astype(float), yts.astype(float)])#([Xvald, yvald])
+GAvalid = np.column_stack([Xvald, yvald])#([Xts.astype(float), yts.astype(float)])
 
 (sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=150, r_sample=0.5, r_crossover=0.4, r_vary=0.0, r_keep_best = 0.01, popsize = 800, verbose = True).select()
 
