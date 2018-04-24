@@ -35,7 +35,6 @@ X = np.load('validDataForGA.npy')
 Xtr = X[:, :-1]
 ytr = X[:, -1]
 Xtr = Xtr[:, sample_genes]
-regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
 err_rate = feval(yhat, ytr)
 print("Error rate on Validation data:", err_rate)
