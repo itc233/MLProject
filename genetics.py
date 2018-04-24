@@ -75,7 +75,7 @@ class GA(object):
         alpha = 0.8
         tmp = list(map(lambda x: pow(alpha, x), scores))
         tmp = tmp / np.sum(tmp)               # calculate p
-        possbilities = tmp #/ np.min(tmp)      # scale
+        possbilities = tmp / np.min(tmp)      # scale
         return possbilities
     
     def _run(self, n_gene_units, n_sample, adapt_func):
@@ -111,9 +111,12 @@ class GA(object):
     def _swapGene(self, ch1, ch2):
         return ch2, ch1
 
-    def _getChild(self, cumboard, sort_id, scores, genes):
+    def _getChild(self, scores, genes, board):
+        cumboard = np.cumsum(np.sort(board))
+        sort_id = np.argsort(board)
         idx = self._getChildId(cumboard, sort_id)
-        return genes[idx], scores[idx]
+        board[idx] = board[idx]-1
+        return genes[idx], scores[idx], board
 
     def _oneGeneration(self, genes, adapt_func):
         scores = [adapt_func(gene) for gene in genes]
@@ -124,12 +127,10 @@ class GA(object):
         bests_idx = np.array(np.argsort(scores)[:n_keep_best])
         new_genes =(np.array(genes)[bests_idx, :]).tolist()
 
-        sort_id = np.argsort(board)
-        cumboard = np.cumsum(np.sort(board))
 
         while(len(new_genes) < len(genes)):
-            ch1, sc1 = self._getChild(cumboard, sort_id, scores, genes)
-            ch2, sc2 = self._getChild(cumboard, sort_id, scores, genes)
+            ch1, sc1, board = self._getChild(scores, genes, board)
+            ch2, sc2, board = self._getChild(scores, genes, board)
             if(sc1 > sc2):
                 ch1, ch2 = self._swapGene(ch1, ch2)
             for j in range(len(ch1)):
