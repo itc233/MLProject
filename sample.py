@@ -29,7 +29,7 @@ GAtrain = np.column_stack([Xtr, ytr])
 GAvalid = np.column_stack([Xvald, yvald])#([Xts.astype(float), yts.astype(float)])
 
 np.save('trainDataForGA', GAtrain)
-np.save('validDateForGA', GAvalid)
+np.save('validDataForGA', GAvalid)
 
 (sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=50, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.01, popsize = 300, verbose = True).select()
 
