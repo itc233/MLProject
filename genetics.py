@@ -56,9 +56,7 @@ class GA(object):
         n_features = self.train.shape[1] - 1  # the last feature is the value
         n_sample = int(self.r_sample * n_features)
 
-        (best_gene, best_scores) = self._run(
-            n_features, n_sample, self._selectFeatureScore
-        )
+        (best_gene, best_scores) = self._run( n_features, n_sample, self._selectFeatureScore )
 
         best_sample = self.train.T[:-1][best_gene].T
         return (best_sample, best_gene, best_scores)
@@ -89,21 +87,23 @@ class GA(object):
             return self.train
         population = [self._randomSeries(n_gene_units, n_sample)
                  for i in range(self.popsize)]
-        bests = []
-        genes = []
+        scoresHist = []
+        genesHist = []
         for i in range(self.iter):
             scores, population, gene = self._oneGeneration(population, adapt_func)
-            bests.append(np.min(scores))
+            scoresHist.append(np.min(scores))
+            genesHist.append(gene)
+
             m_genes = np.mean(population, axis = 0)
             print(m_genes)
-            self._verbose('Generation {0:3}: Best socre:{1}'.format(i, bests[-1]))
-            genes.append(gene)
+
+            self._verbose('Generation {0:3}: Best score this gen:{1} Best socre:{1}'.format(i, np.min(scores) ,scoresHist[-1]))
+
             np.save('trained_genes', gene)
-            print("in main ", np.min(scores))
-        self._verbose('Final best score:{0}'.format(bests[-1]))
-        best_gene = genes[np.argmin(scores)]
-        # return best_gene, the vary best scores
-        return (best_gene, bests)
+            
+        self._verbose('Final best score:{0}'.format(scoresHist[-1]))
+        best_gene = genesHist[np.len(genes)]
+        return (best_gene, scoresHist)
             
     def _getChildId(self, cumboard, sort_id):
         val = random.uniform(0, cumboard[len(cumboard)-1])
