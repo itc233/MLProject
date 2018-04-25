@@ -96,7 +96,7 @@ class GA(object):
         tr_idx, val_idx = self._generateDataIdx()
         self.train = self.Xdata[tr_idx, :]
         self.valid = self.Xdata[val_idx, :]
-        return Xtr, Xvald
+        return
 
     def _run(self, n_gene_units, n_sample, adapt_func):
         if n_gene_units == n_sample:
