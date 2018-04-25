@@ -20,10 +20,9 @@ class GA(object):
         self.r_keep_best = r_keep_best
         self.popsize = popsize
         self.feval = feval
-        #self._validate()
         self.pTrain = pTrain
-        self.train = []
-        self.valid = []
+        self.train, self.valid = self._generateData()
+        self._validate()
 
     def _verbose(self, *args):
         if self.verbose:
