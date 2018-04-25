@@ -83,7 +83,7 @@ class GA(object):
         possbilities = tmp / np.min(tmp)      # scale
         return possbilities
 
-    def _generateDataIdx():
+    def _generateDataIdx(self):
         tr_len = np.int(self.pTrain*len(self.Xdata))
         
         rand_idx = np.arange(len(self.Xdata))
@@ -92,7 +92,7 @@ class GA(object):
         vald_idx = rand_idx[tr_len:]
         return tr_idx, vald_idx
 
-    def _generateData():
+    def _generateData(self):
         tr_idx, val_idx = self._generateDataIdx()
         self.train = self.Xdata[tr_idx, :]
         self.valid = self.Xdata[vald_idx, :]
