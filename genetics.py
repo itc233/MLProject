@@ -21,7 +21,9 @@ class GA(object):
         self.popsize = popsize
         self.feval = feval
         self.pTrain = pTrain
-        self.train, self.valid = self._generateData()
+        self.train = []
+        self.valid = []
+        self._generateData()
         self._validate()
 
     def _verbose(self, *args):
