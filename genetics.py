@@ -21,6 +21,8 @@ class GA(object):
         self.popsize = popsize
         self.feval = feval
         self._validate()
+        self.train = []
+        self.valid = []
 
     def _verbose(self, *args):
         if self.verbose:
