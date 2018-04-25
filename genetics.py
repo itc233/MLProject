@@ -5,17 +5,16 @@ from multiprocessing import Pool
 class GA(object):
 
     # the last column of train and valid will be taken as the perdict value
-    def __init__(self, train, valid, estimator, feval, 
+    def __init__(self, train, estimator, feval, 
                  iter=200, r_sample=0.6, r_crossover=0.5, r_vary=0.01,
                  r_keep_best=0.1, popsize = 1000,
                  verbose=False):
-        self.train = train
+        self.Xdata = train
         self.origin_estimator = estimator
         self.estimator = estimator
         self.verbose = verbose
         self.iter = iter
         self.r_sample = r_sample
-        self.valid = valid
         self.r_crossover = r_crossover
         self.r_vary = r_vary
         self.r_keep_best = r_keep_best
@@ -81,7 +80,22 @@ class GA(object):
         tmp = tmp / np.sum(tmp)               # calculate p
         possbilities = tmp / np.min(tmp)      # scale
         return possbilities
-    
+
+    def _generateDataIdx():
+        tr_len = np.int(self.pTrain*len(self.Xdata))
+        
+        rand_idx = np.arange(len(self.Xdata))
+        np.random.shuffle(rand_idx)
+        tr_idx = rand_idx[:tr_len]
+        vald_idx = rand_idx[tr_len:]
+        return tr_idx, vald_idx
+
+    def _generateData():
+        tr_idx, val_idx = self._generateDataIdx()
+        self.train = self.Xdata[tr_idx, :]
+        self.valid = self.Xdata[vald_idx, :]
+        return Xtr, Xvald
+
     def _run(self, n_gene_units, n_sample, adapt_func):
         if n_gene_units == n_sample:
             return self.train
@@ -90,6 +104,7 @@ class GA(object):
         scoresHist = []
         genesHist = []
         for i in range(self.iter):
+            self._generateData()
             scores, population, gene = self._oneGeneration(population, adapt_func)
             scoresHist.append(np.min(scores))
             genesHist.append(gene)
