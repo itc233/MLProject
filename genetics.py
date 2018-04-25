@@ -9,7 +9,7 @@ class GA(object):
                  iter=200, r_sample=0.6, r_crossover=0.5, r_vary=0.01,
                  r_keep_best=0.1, popsize = 1000,
                  verbose=False):
-        self.Xdata = train
+        self.Xdata = Xdata
         self.origin_estimator = estimator
         self.estimator = estimator
         self.verbose = verbose
