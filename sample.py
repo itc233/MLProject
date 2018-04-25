@@ -24,18 +24,14 @@ Xts = X[len(ytr):, :]
 np.save('data/train', np.column_stack([Xtr, ytr]))
 np.save('data/test', np.column_stack([Xts, yts]))
 
-Xtr, ytr, Xvald, yvald = sample_data(Xtr, ytr, port_tr, port_vald)
 GAtrain = np.column_stack([Xtr, ytr])
-GAvalid = np.column_stack([Xvald, yvald])#([Xts.astype(float), yts.astype(float)])
-
 np.save('trainDataForGA', GAtrain)
-np.save('validDataForGA', GAvalid)
 
-(sample_result, sample_genes, sample_scores) = GA(GAtrain, GAvalid, linear_model.LinearRegression(), feval, iter=50, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.01, popsize = 300, verbose = True).select()
+(sample_result, sample_genes, sample_scores) = GA(GAtrain, linear_model.LinearRegression(), feval, iter=50, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.01, popsize = 300, verbose = True).select()
 
 print("sample_result:\n", sample_result)
 print("sample_genes:\n", sample_genes)
 print("sample_scores:\n", sample_scores)
 
-np.save('trained_genes', sample_genes)
+#np.save('trained_genes', sample_genes)
 np.save('hist_scores', sample_scores)
