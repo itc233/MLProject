@@ -21,22 +21,11 @@ Xytr = np.load(tr_path)#readDataTrain(tr_path)
 Xtr = Xytr[:, :-1]
 ytr = Xytr[:, -1]
 Xtr = Xtr[:, sample_genes]
-#X = np.load('trainDataForGA.npy')
-#Xtr = X[:, :-1]
-#ytr = X[:, -1]
-#Xtr = Xtr[:, sample_genes]
 regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
 err_rate = feval(yhat, ytr)
 print("Error rate on Training data:", err_rate)
 
-X = np.load('validDataForGA.npy')
-Xtr = X[:, :-1]
-ytr = X[:, -1]
-Xtr = Xtr[:, sample_genes]
-yhat = regr.predict(Xtr)
-err_rate = feval(yhat, ytr)
-print("Error rate on Validation data:", err_rate)
 
 Xyts = np.load(ts_path)#readDataTrain(tr_path)
 Xyts = Xyts.astype(float)
