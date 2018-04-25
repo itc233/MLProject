@@ -5,7 +5,7 @@ from multiprocessing import Pool
 class GA(object):
 
     # the last column of train and valid will be taken as the perdict value
-    def __init__(self, Xdata, estimator, feval, 
+    def __init__(self, Xdata, pTrain = 0.8, estimator, feval, 
                  iter=200, r_sample=0.6, r_crossover=0.5, r_vary=0.01,
                  r_keep_best=0.1, popsize = 1000,
                  verbose=False):
@@ -20,7 +20,7 @@ class GA(object):
         self.r_keep_best = r_keep_best
         self.popsize = popsize
         self.feval = feval
-        self._validate()
+        #self._validate()
         self.train = []
         self.valid = []
 
