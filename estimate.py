@@ -23,7 +23,7 @@ ytr = Xytr[:, -1]
 Xtr = Xtr[:, sample_genes]
 regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
-err_rate = feval(yhat, ytr)
+err_rate = np.sqrt(np.mean((ytr-yhat)**2))
 print("Error rate on Training data:", err_rate)
 
 
@@ -33,7 +33,7 @@ Xts = Xyts[:, :-1]
 yts = Xyts[:, -1]
 Xts = Xts[:, sample_genes]
 yhat = regr.predict(Xts)
-err_rate = feval(yhat, yts)
+err_rate = np.sqrt(np.mean((yts-yhat)**2))
 print("Error rate on Test data:", err_rate)
 
 #parse output
