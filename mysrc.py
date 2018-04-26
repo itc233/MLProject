@@ -23,6 +23,7 @@ def generate_idx(port_tr, port_vald, data_len):
 def feval(estimator, X, gene, nfold):
 	kf = model_selection.KFold(n_splits=nfold,shuffle=True)
 	RMSE = np.zeros(nfold)
+	gene = np.concatenate((gene, np.array([False])), axis = 0)
 	for isplit, Ind in enumerate(kf.split(X)):
 		Itr, Its = Ind 
 		xtr = X[Itr, gene]
