@@ -43,12 +43,12 @@ class GA(object):
         return self.feval(self.estimator, self.Xdata, gene, self.nfold)
 
     def _selectFeature(self):
-        n_features = self.train.shape[1] - 1  # the last feature is the value
+        n_features = self.Xdata.shape[1] - 1  # the last feature is the value
         n_sample = int(self.r_sample * n_features)
 
         (best_gene, best_scores) = self._run( n_features, n_sample, self._selectFeatureScore )
 
-        best_sample = self.train.T[:-1][best_gene].T
+        best_sample = self.Xdata.T[:-1][best_gene].T
         return (best_sample, best_gene, best_scores)
 
     # generate a random array whose len=n_len, and have n_pos's value==True
