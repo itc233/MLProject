@@ -121,7 +121,7 @@ class GA(object):
             np.save('trained_genes', gene)
             
         self._verbose('Final best score:{0}'.format(scoresHist[-1]))
-        best_gene = genesHist[np.len(genes)]
+        best_gene = genesHist[-1]
         return (best_gene, scoresHist)
             
     def _getChildId(self, cumboard, sort_id):
