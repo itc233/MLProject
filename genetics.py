@@ -3,12 +3,12 @@ import random
 from multiprocessing import Pool
 
 class GA(object):
-
+    #feval->crossValidFeval
     # the last column of train and valid will be taken as the perdict value
     def __init__(self, Xdata, estimator, feval, 
                  iter=200, r_sample=0.6, r_crossover=0.5, r_vary=0.01,
                  r_keep_best=0.1, popsize = 1000, pTrain = 0.8,
-                 verbose=False):
+                 nfold = 5, verbose=False):
         self.Xdata = Xdata
         self.origin_estimator = estimator
         self.estimator = estimator
@@ -21,10 +21,8 @@ class GA(object):
         self.popsize = popsize
         self.feval = feval
         self.pTrain = pTrain
-        self.train = []
-        self.valid = []
-        self._generateData()
-        self._validate()
+        self.nfold = nfold
+        #self._validate()
 
     def _verbose(self, *args):
         if self.verbose:
@@ -42,18 +40,7 @@ class GA(object):
 
     # the smaller the better
     def _selectFeatureScore(self, gene):
-        Xtr = self.train[:, :-1]
-        Xtr = Xtr[:, gene]
-        ytr = self.train[:, -1]
-
-        Xvalid = self.valid[:, :-1]
-        Xvalid = Xvalid[:, gene]
-        yvalid = self.valid[:, -1]
-
-        self.estimator = self.origin_estimator
-        estor = self.estimator.fit(Xtr, ytr)
-        predicts = estor.predict(Xvalid)
-        return self.feval(predicts, yvalid)
+        return self.feval(self.estimator, self.Xdata, gene, self.nfold)
 
     def _selectFeature(self):
         n_features = self.train.shape[1] - 1  # the last feature is the value
@@ -108,7 +95,6 @@ class GA(object):
         scoresHist = []
         genesHist = []
         for i in range(self.iter):
-            self._generateData()
             scores, population, gene = self._oneGeneration(population, adapt_func)
             scoresHist.append(np.min(scores))
             genesHist.append(gene)
