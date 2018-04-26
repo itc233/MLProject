@@ -26,9 +26,10 @@ def feval(estimator, X, gene, nfold):
 	gene = np.concatenate((gene, np.array([False])), axis = 0)
 	for isplit, Ind in enumerate(kf.split(X)):
 		Itr, Its = Ind 
-		xtr = X[Itr, gene]
+		x = X[:, gene]
+		xtr = x[Itr, :]
+		xts = x[Its, :]
 		ytr = X[Itr, -1]
-		xts = X[Its, gene]
 		yts = X[Its, -1]
 		model = estimator.fit(xtr, ytr)
 		yhat = model.predict(xts)
