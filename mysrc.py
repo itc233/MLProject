@@ -33,7 +33,7 @@ def feval(estimator, X, gene, nfold):
 		yts = X[Its, -1]
 		model = estimator.fit(xtr, ytr)
 		yhat = model.predict(xts)
-		RMSE[isplit] = np.sqrt(np.mean(yts-yhat)**2)
+		RMSE[isplit] = np.sqrt(np.mean((yts-yhat)**2))
 		print(RMSE[isplit])
 	return np.mean(RMSE)
 
