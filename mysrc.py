@@ -34,6 +34,8 @@ def feval(estimator, X, gene, nfold):
 		model = estimator.fit(xtr, ytr)
 		yhat = model.predict(xts)
 		RMSE[isplit] = np.sqrt(np.mean((yts-yhat)**2))
+	print("Validation:\n")
+	print(RMSE)
 	return np.mean(RMSE)
 
 def sample_data(X, y, port_tr, port_vald):
