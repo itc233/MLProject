@@ -105,6 +105,7 @@ class GA(object):
             self._verbose('Generation {0:3}: Best score this gen:{1} Best socre:{1}'.format(i, np.min(scores) ,scoresHist[-1]))
 
             np.save('trained_genes', gene)
+            np.save('hist_scores', scoresHist)
             
         self._verbose('Final best score:{0}'.format(scoresHist[-1]))
         best_gene = genesHist[-1]
