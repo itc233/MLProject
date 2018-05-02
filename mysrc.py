@@ -21,8 +21,12 @@ def generate_idx(port_tr, port_vald, data_len):
 #	return fit
 
 def rejectOutlier(data, m = 2):
+	stds = np.std(data, axis = 0)
+	means = np.mean(data, axis = 0)
+	print("origin shape:", np.shape(data))
 	for i in range(np.shape(data)[1]):
-		data = data[abs(data[:, i] - np.mean(data[:, i])) < m*np.std(data[:, i])]
+		data = data[abs(data[:, i] - means[i]) < m*stds[i]]
+	print("after shape:", np.shape(data))
 	return data
 
 def feval(estimator, X, gene, nfold):
