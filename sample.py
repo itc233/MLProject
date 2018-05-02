@@ -25,7 +25,7 @@ np.save('data/train', np.column_stack([Xtr, ytr]))
 np.save('data/test', np.column_stack([Xts, yts]))
 
 GAtrain = np.column_stack([Xtr, ytr])
-GAtrain = removeOutlier(GAtrain, 2)
+GAtrain = rejectOutlier(GAtrain, 2)
 np.save('trainDataForGA', GAtrain)
 
 (sample_result, sample_genes, sample_scores) = GA(GAtrain, linear_model.LinearRegression(), feval, iter=300, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.1, popsize = 200, pTrain = 0.8, nfold = 5, verbose = True).select()
