@@ -21,7 +21,9 @@ def generate_idx(port_tr, port_vald, data_len):
 #	return fit
 
 def rejectOutlier(data, m = 2):
-	return data[abs(data - np.mean(data)) < m * np.std(data)]
+	for i in range(np.shape(data)[1]):
+		data = data[abs(data[:, i] - np.mean(data[:, i])) < m*np.std(data[:, i])]
+	return data
 
 def feval(estimator, X, gene, nfold):
 	kf = model_selection.KFold(n_splits=nfold,shuffle=True)
