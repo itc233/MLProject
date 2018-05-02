@@ -20,6 +20,9 @@ def generate_idx(port_tr, port_vald, data_len):
 #	fit = np.sqrt(np.mean((y-yhat)**2))
 #	return fit
 
+def rejectOutlier(data, m = 2):
+	return data[abs(data - np.mean(data)) < m * np.std(data)]
+
 def feval(estimator, X, gene, nfold):
 	kf = model_selection.KFold(n_splits=nfold,shuffle=True)
 	RMSE = np.zeros(nfold)
