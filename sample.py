@@ -27,6 +27,7 @@ Xts, yts = readDataTest(tsx_path, tsy_path)
 Xytr = np.column_stack([Xtr, ytr])
 Xytr = rejectOutlier(Xytr, 3)
 Xtr = Xytr[:, :-1]
+ytr = Xytr[:, -1]
 X = np.concatenate((Xtr, Xts), axis = 0)
 X = preprocessing.scale(X)
 Xytr[:,:-1] = X[:len(ytr), :]
