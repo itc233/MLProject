@@ -15,23 +15,29 @@ ts_path = 'data/test.npy'
 
 sample_genes = np.load('trained_genes.npy')
 #sample_genes = np.full(np.shape(sample_genes), True, dtype=bool)
-regr = linear_model.LinearRegression()
+regr = linear_model.Lasso(alpha = 0.01)#LinearRegression()
 
 Xytr = np.load(tr_path)#readDataTrain(tr_path)
+Xyts = np.load(ts_path)#readDataTrain(tr_path)
+Xyts = Xyts.astype(float)
 Xtr = Xytr[:, :-1]
 ytr = Xytr[:, -1]
 Xtr = Xtr[:, sample_genes]
+Xts = Xyts[:, :-1]
+yts = Xyts[:, -1]
+Xts = Xts[:, sample_genes]
+
+X = np.concatenate((Xtr, Xts))
+X = preprocessing.scale(X)
+
+Xtr = X[:len(ytr), :]
+Xts = X[len(ytr):, :]
 regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
 err_rate = np.sqrt(np.mean((ytr-yhat)**2))
 print("Error rate on Training data:", err_rate)
 
 
-Xyts = np.load(ts_path)#readDataTrain(tr_path)
-Xyts = Xyts.astype(float)
-Xts = Xyts[:, :-1]
-yts = Xyts[:, -1]
-Xts = Xts[:, sample_genes]
 yhat = regr.predict(Xts)
 err_rate = np.sqrt(np.mean((yts-yhat)**2))
 print("Error rate on Test data:", err_rate)
