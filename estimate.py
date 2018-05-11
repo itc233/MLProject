@@ -9,12 +9,10 @@ from genetics import GA
 from mysrc import *
 import csv
 
-tr_path = 'data/train.npy'
-ts_path = 'data/test.npy'
-#tsy_path = 'data/test_y.csv'
-
+tr_path = 'trainDataForGA.npy'
+ts_path = 'testDataForGA.npy'
 sample_genes = np.load('trained_genes.npy')
-#sample_genes = np.full(np.shape(sample_genes), True, dtype=bool)
+
 regr = linear_model.Lasso(alpha = 0.01)#LinearRegression()
 
 Xytr = np.load(tr_path)#readDataTrain(tr_path)
@@ -27,11 +25,6 @@ Xts = Xyts[:, :-1]
 yts = Xyts[:, -1]
 Xts = Xts[:, sample_genes]
 
-X = np.concatenate((Xtr, Xts))
-X = preprocessing.scale(X)
-
-Xtr = X[:len(ytr), :]
-Xts = X[len(ytr):, :]
 regr.fit(Xtr,ytr)
 yhat = regr.predict(Xtr)
 err_rate = np.sqrt(np.mean((ytr-yhat)**2))
