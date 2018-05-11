@@ -37,7 +37,7 @@ Xts = (Xts-xm)/xstd#X[len(ytr):, :]
 np.save('trainDataForGA', Xytr)
 np.save('testDataForGA', np.column_stack([Xts, yts]))
 
-(sample_result, sample_genes, sample_scores) = GA(Xytr, linear_model.Lasso(alpha = 0.01), feval, iter=300, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.1, popsize = 300, pTrain = 0.8, nfold = 5, verbose = True).select()
+(sample_result, sample_genes, sample_scores) = GA(Xytr, linear_model.Lasso(alpha = 0.1), feval, iter=300, r_sample=0.5, r_crossover=0.5, r_vary=0.0, r_keep_best = 0.1, popsize = 300, pTrain = 0.8, nfold = 5, verbose = True).select()
 
 print("sample_result:\n", sample_result)
 print("sample_genes:\n", sample_genes)
