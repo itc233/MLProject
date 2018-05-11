@@ -28,10 +28,12 @@ Xytr = np.column_stack([Xtr, ytr])
 Xytr = rejectOutlier(Xytr, 3)
 Xtr = Xytr[:, :-1]
 ytr = Xytr[:, -1]
-X = np.concatenate((Xtr, Xts), axis = 0)
-X = preprocessing.scale(X)
-Xytr[:,:-1] = X[:len(ytr), :]
-Xts = X[len(ytr):, :]
+#X = np.concatenate((Xtr, Xts), axis = 0)
+#X = preprocessing.scale(X)
+xm = np.mean(Xtr, axis = 0)
+xstd = np.std(Xtr, axis = 0)
+Xytr[:,:-1] = (Xytr[:, :-1]-xm)/xstd#X[:len(ytr), :]
+Xts = (Xts-xm)/xstd#X[len(ytr):, :]
 np.save('trainDataForGA', Xytr)
 np.save('testDataForGA', np.column_stack([Xts, yts]))
 
